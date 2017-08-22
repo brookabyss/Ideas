@@ -110,10 +110,18 @@ namespace Ideas.Controllers
             System.Console.WriteLine("****************************likes Concept");
                 int? UsersId=HttpContext.Session.GetInt32("UserId");
                 Concepts concept= _context.Concepts.Include(a=>a.Users).SingleOrDefault(a=>a.ConceptsId==ConceptsId);
-                List<Likes> likes= _context.Likes.
-                                    Include(a=>a.Users)
-                                    .Where(a=>a.ConceptsId==ConceptsId).Distinct().ToList();
-                ViewBag.Likes= likes;
+               List<Likes> likes= _context.Likes
+                                    .Include(a=>a.Users)
+                                    .Where(a=>a.ConceptsId==ConceptsId)
+
+                                    .ToList();
+
+              var likers= likes.GroupBy(p => new {p.UsersId, p.ConceptsId} )
+                                .Select(g => g.First())
+                                .ToList();
+              
+                
+                ViewBag.Likes= likers;
                 ViewBag.Concept= concept;
                 return View("Likes");
 
