@@ -1,0 +1,25 @@
+
+<a asp-controller="User" asp-action="Logout">Logout</a> 
+ @foreach (var e in ViewBag.errors)
+ {
+        <p>@e</p>
+ }
+
+
+<h1>Hi @ViewBag.name</h1>
+
+<form asp-controller="Bright" asp-action="CreateConcept">
+    <input type="text" name="Content" placeholder="Place something witty here">
+    <button type="submit">Idea!</button>
+</form>
+
+
+@foreach(var c in ViewBag.Concepts)
+{
+   <p><a asp-controller="User" asp-action="UserInfo" asp-route-ChosenId=@c.Users.UsersId>@c.Users.Alias</a>  says: </p><h4>@c.Content</h4>
+   <a asp-controller="Bright" asp-action="LikeConcept" asp-route-ConceptsId=@c.ConceptsId>Like</a> 
+   <a asp-controller="Bright" asp-action="ToLikes" asp-route-ConceptsId=@c.ConceptsId>@c.LikeCount</a>
+   @if(c.UsersId==ViewBag.UsersId){
+       <a asp-controller="Bright" asp-action="DeleteConcept" asp-route-ConceptsId=@c.ConceptsId>Delete</a> 
+   }
+}

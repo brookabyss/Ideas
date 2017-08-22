@@ -1,0 +1,17 @@
+<a asp-controller="User" asp-action="Logout">Logout</a> 
+<a asp-controller="Bright" asp-action="Show">BrightIdeas</a> 
+ @foreach (var e in ViewBag.errors)
+ {
+        <p>@e</p>
+ }
+
+ 
+
+
+<h2>Name: @ViewBag.ChosenUser.FirstName</h2>
+<h2>Alias: @ViewBag.ChosenUser.Alias</h2>
+<h2>Email: @ViewBag.ChosenUser.Email</h2>
+
+
+<h2>Total Number of Posts: @ViewBag.ConceptsCount</h2>
+<h2>Total Number of Likes: @ViewBag.LikesCount</h2>

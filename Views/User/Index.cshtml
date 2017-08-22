@@ -1,0 +1,36 @@
+@model Ideas.Models.UsersView
+
+ @foreach (var e in ViewBag.errors)
+ {
+        <p>@e</p>
+ }
+
+
+  <h1>Login</h1>
+<form asp-controller="User" asp-action="Login" method="post">
+    <label asp-for="Email"></label>
+    <input asp-for="Email"/><br>
+    <label asp-for="Password"></label>
+    <input asp-for="Password"  type="password"/><br>
+    <button type="submit">Log in</button>
+</form> 
+
+
+<h1>Registration</h1>
+<form asp-controller="User" asp-action="Register" method="post">
+    <label for="FirstName">Name: </label>
+    <input asp-for="FirstName"/><br>
+    <label asp-for="Alias"></label>
+    <input asp-for="Alias"/><br>
+    <label asp-for="Email"></label>
+    <input asp-for="Email"/><br>
+    <label asp-for="Password"></label>
+    <input asp-for="Password" type="password"/><br>
+    <label asp-for="ConfirmPassword"></label>
+    <input asp-for="ConfirmPassword"type="password"><br>
+    <button type="submit">Create new User</button>
+</form>
+
+
+
+
