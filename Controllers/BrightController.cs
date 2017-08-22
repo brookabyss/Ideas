@@ -26,14 +26,22 @@ namespace Ideas.Controllers
                                     return concepts;
 
         }
+        // Logged in?
+        public bool loggedIn(){
+            int? loggedId=HttpContext.Session.GetInt32("UserId");
+            
+                return (loggedId!=null);
+           
+            
+        }
         
 
         [HttpGet]
         [Route("bright_ideas")]
         public IActionResult Show()
         {
-            int? loggedId=HttpContext.Session.GetInt32("UserId");
-            if(loggedId==null){
+            
+            if(!loggedIn()){
                 return RedirectToAction("Index","User");
             }
             ViewBag.errors=new List<string>();
@@ -48,8 +56,8 @@ namespace Ideas.Controllers
         [Route("concepts/create")]
         public IActionResult CreateConcept(string Content){
 
-            int? loggedId=HttpContext.Session.GetInt32("UserId");
-            if(loggedId==null){
+            
+            if(!loggedIn()){
                 return RedirectToAction("Index","User");
             }
 
@@ -77,8 +85,7 @@ namespace Ideas.Controllers
         [Route("concepts/like/{ConceptsId}")]
         public IActionResult LikeConcept(int ConceptsId){
             ViewBag.errors= new List<string>();
-            int? loggedId=HttpContext.Session.GetInt32("UserId");
-            if(loggedId==null){
+             if(!loggedIn()){
                 return RedirectToAction("Index","User");
             }
             System.Console.WriteLine("****************************Inside Like Concept");
@@ -114,8 +121,7 @@ namespace Ideas.Controllers
         [Route("concepts/delete/{ConceptsId}")]
         public IActionResult DeleteConcept(int ConceptsId){
 
-            int? loggedId=HttpContext.Session.GetInt32("UserId");
-            if(loggedId==null){
+             if(!loggedIn()){
                 return RedirectToAction("Index","User");
             }
             System.Console.WriteLine("****************************Inside Delete Concept");
@@ -138,8 +144,7 @@ namespace Ideas.Controllers
         [HttpGet]
         [Route("concepts/likes/{ConceptsId}")]
         public IActionResult ToLikes(int ConceptsId){
-            int? loggedId=HttpContext.Session.GetInt32("UserId");
-            if(loggedId==null){
+             if(!loggedIn()){
                 return RedirectToAction("Index","User");
             }
             ViewBag.errors=new List<string>();
