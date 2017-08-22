@@ -76,16 +76,25 @@ namespace Ideas.Controllers
         [HttpGet]
         [Route("concepts/like/{ConceptsId}")]
         public IActionResult LikeConcept(int ConceptsId){
-
+            ViewBag.errors= new List<string>();
             int? loggedId=HttpContext.Session.GetInt32("UserId");
             if(loggedId==null){
                 return RedirectToAction("Index","User");
             }
             System.Console.WriteLine("****************************Inside Like Concept");
                 int? UsersId=HttpContext.Session.GetInt32("UserId");
-
-                Concepts concept= _context.Concepts.SingleOrDefault(a=>a.ConceptsId==ConceptsId);
-                Likes likes= new Likes{
+                var userlikes = _context.Likes.Include(a=>a.Users).Include(a=>a.Concepts).Where(a=>a.UsersId==UsersId && a.ConceptsId==ConceptsId).ToList();
+                if(userlikes.Count>0){
+                    ViewBag.errors.Add("Can't like a post more than once");
+                    ViewBag.name= HttpContext.Session.GetString("name");
+                    ViewBag.Concepts= GetConcepts();
+                    int? Id=HttpContext.Session.GetInt32("UserId");
+                    ViewBag.UsersId= (int)Id;
+                    return View("Show");
+                }
+                else{
+                    Concepts concept= _context.Concepts.SingleOrDefault(a=>a.ConceptsId==ConceptsId);
+                    Likes likes= new Likes{
                     UsersId=(int)UsersId,
                     ConceptsId= ConceptsId,
                     CreatedAt= DateTime.Now,
@@ -95,6 +104,8 @@ namespace Ideas.Controllers
                   concept.LikeCount+=1;
                  _context.SaveChanges();
                 return RedirectToAction("Show");
+                }
+                
 
         }
 
