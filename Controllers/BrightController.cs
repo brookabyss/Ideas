@@ -32,7 +32,10 @@ namespace Ideas.Controllers
         [Route("bright_ideas")]
         public IActionResult Show()
         {
-
+            int? loggedId=HttpContext.Session.GetInt32("UserId");
+            if(loggedId==null){
+                return RedirectToAction("Index","User");
+            }
             ViewBag.errors=new List<string>();
             ViewBag.name= HttpContext.Session.GetString("name");
             ViewBag.Concepts= GetConcepts();
@@ -44,6 +47,13 @@ namespace Ideas.Controllers
         [HttpPost]
         [Route("concepts/create")]
         public IActionResult CreateConcept(string Content){
+
+            int? loggedId=HttpContext.Session.GetInt32("UserId");
+            if(loggedId==null){
+                return RedirectToAction("Index","User");
+            }
+
+
             ViewBag.errors=new List<string>();
             if(Content.Length<=0){
                 ViewBag.errors.Add("Content Can't be empty");
@@ -66,8 +76,14 @@ namespace Ideas.Controllers
         [HttpGet]
         [Route("concepts/like/{ConceptsId}")]
         public IActionResult LikeConcept(int ConceptsId){
+
+            int? loggedId=HttpContext.Session.GetInt32("UserId");
+            if(loggedId==null){
+                return RedirectToAction("Index","User");
+            }
             System.Console.WriteLine("****************************Inside Like Concept");
                 int? UsersId=HttpContext.Session.GetInt32("UserId");
+
                 Concepts concept= _context.Concepts.SingleOrDefault(a=>a.ConceptsId==ConceptsId);
                 Likes likes= new Likes{
                     UsersId=(int)UsersId,
@@ -86,6 +102,11 @@ namespace Ideas.Controllers
         [HttpGet]
         [Route("concepts/delete/{ConceptsId}")]
         public IActionResult DeleteConcept(int ConceptsId){
+
+            int? loggedId=HttpContext.Session.GetInt32("UserId");
+            if(loggedId==null){
+                return RedirectToAction("Index","User");
+            }
             System.Console.WriteLine("****************************Inside Delete Concept");
                 int? UsersId=HttpContext.Session.GetInt32("UserId");
                 Concepts concept= _context.Concepts.SingleOrDefault(a=>a.ConceptsId==ConceptsId);
@@ -106,6 +127,10 @@ namespace Ideas.Controllers
         [HttpGet]
         [Route("concepts/likes/{ConceptsId}")]
         public IActionResult ToLikes(int ConceptsId){
+            int? loggedId=HttpContext.Session.GetInt32("UserId");
+            if(loggedId==null){
+                return RedirectToAction("Index","User");
+            }
             ViewBag.errors=new List<string>();
             System.Console.WriteLine("****************************likes Concept");
                 int? UsersId=HttpContext.Session.GetInt32("UserId");

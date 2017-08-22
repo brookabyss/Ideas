@@ -96,7 +96,7 @@ namespace Ideas.Controllers
                     return RedirectToAction("Show","Bright");
                }
                else{
-                   ViewBag.errors.Add("Username or password is incorrect");
+                   ViewBag.errors.Add("Email or password is incorrect");
                    return View("Index");
                }
             }
