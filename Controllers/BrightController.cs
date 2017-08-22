@@ -21,7 +21,8 @@ namespace Ideas.Controllers
         // Get All Concepts
          public List<Concepts> GetConcepts (){
             List<Concepts> concepts= _context.Concepts
-                                    .Include(a=>a.Users).ToList();
+                                    .Include(a=>a.Users)
+                                    .OrderByDescending(a=>a.LikeCount).ToList();
                                     return concepts;
 
         }
@@ -111,7 +112,7 @@ namespace Ideas.Controllers
                 Concepts concept= _context.Concepts.Include(a=>a.Users).SingleOrDefault(a=>a.ConceptsId==ConceptsId);
                 List<Likes> likes= _context.Likes.
                                     Include(a=>a.Users)
-                                    .Where(a=>a.ConceptsId==ConceptsId).ToList();
+                                    .Where(a=>a.ConceptsId==ConceptsId).Distinct().ToList();
                 ViewBag.Likes= likes;
                 ViewBag.Concept= concept;
                 return View("Likes");
