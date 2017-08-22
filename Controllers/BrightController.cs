@@ -101,6 +101,23 @@ namespace Ideas.Controllers
 
         }
 
+         // To Concept Likes 
+        [HttpGet]
+        [Route("concepts/likes/{ConceptsId}")]
+        public IActionResult ToLikes(int ConceptsId){
+            ViewBag.errors=new List<string>();
+            System.Console.WriteLine("****************************likes Concept");
+                int? UsersId=HttpContext.Session.GetInt32("UserId");
+                Concepts concept= _context.Concepts.Include(a=>a.Users).SingleOrDefault(a=>a.ConceptsId==ConceptsId);
+                List<Likes> likes= _context.Likes.
+                                    Include(a=>a.Users)
+                                    .Where(a=>a.ConceptsId==ConceptsId).ToList();
+                ViewBag.Likes= likes;
+                ViewBag.Concept= concept;
+                return View("Likes");
+
+        }
+
 
 
 

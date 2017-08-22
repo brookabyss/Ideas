@@ -4,4 +4,20 @@
  {
         <p>@e</p>
  }
- 
+
+ <p><a asp-controller="User" asp-action="UserInfo" asp-route-ChosenId=@ViewBag.Concept.UsersId>@ViewBag.Concept.Users.Alias</a>  says: </p><h4>@ViewBag.Concept.Content</h4> 
+
+ <p>People who liked this post:
+ </p>
+ <table>
+    <tr>
+        <th>Alias</th>
+        <th>Name</th>
+        </tr>
+        @foreach(var u in ViewBag.Likes){
+            <tr>
+                <td>@u.Users.Alias</td>
+                <td>@u.Users.FirstName</td>
+            </tr>
+        }
+ </table>
